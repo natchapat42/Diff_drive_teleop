@@ -4,6 +4,6 @@ Teleop_twist_keyboard for my differential robot
 
 This contains 5 main folders:
 
-<a name="general-info"></a>
+*launch folder : for launch all files ( include rviz / gazebo )
 
 
