@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<robot name="lidar_sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find assignment)/urdf/properties.xacro"/>
+
+    <xacro:macro name="lidarx" params="">
+
+      <!--Gazebo Hokuyo Laser Plugin-->
+
+      <gazebo reference="sensor_laser">
+        <sensor type="gpu_ray" name="head_hokuyo_sensor">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>true</visualize>
+          <update_rate>40</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>720</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14</min_angle>
+                <max_angle>3.14</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.10</min>
+              <max>30.0</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </ray>
+          <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+            <topicName>/mybot/laser_scan</topicName>
+            <frameName>sensor_laser</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <!--Laser Scan-->
+      <link name="sensor_laser">
+        <visual>
+          <geometry>
+            <mesh filename="package://assignment/urdf/hokuyo.dae"/>
+          </geometry>
+          <material name="blue"/>
+        </visual>
+        <collision>
+          <geometry>
+            <box size="${laser_size_x} ${laser_size_y} ${laser_size_z}"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <!--Joint laser Scan-->
+
+      <joint name="sensor_laser_joint" type="fixed">
+        <origin xyz="${laser_origin_x} ${laser_origin_y} ${laser_origin_z}" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="sensor_laser" />
+      </joint>
+
+
+    </xacro:macro>
+
+</robot>
+
+<!-- https://www.youtube.com/watch?v=UMEE5HYQ8VU -->
+
+<!-- https://bitbucket.org/kiranpalla/learn-ros/src/master/using-gazebo-laser-scan/src/mybot/urdf/ -->

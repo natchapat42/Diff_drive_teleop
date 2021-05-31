@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<robot name="inertialX" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find assignment)/urdf/properties.xacro"/>
+
+    <!-- Sphere -->
+
+    <xacro:macro name="sphere_inertia" params="r m *origin">
+        <inertial>
+            <mass value="${m}"/>
+            <xacro:insert_block name="origin"/>
+            <inertia ixx="${0.4 * m * r * r}" ixy="0.0" ixz="0.0"
+                iyy="${0.4 * m * r * r}" iyz="0.0" izz="${0.4 * m * r * r}" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- Cylinder -->
+
+    <xacro:macro name="cylinder_inertia" params="r l m *origin">
+        <inertial>
+            <mass value="${m}"/>
+            <xacro:insert_block name="origin"/>
+            <inertia ixx="${0.0833 * m * ( 3 * r * r + ( l * l))}" ixy="0.0" ixz="0.0"
+                iyy="${0.0833 * m * ( 3 * r * r + (l * l))}" iyz="0.0" izz="${0.5 * m * r * r}" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- Box -->
+
+    <xacro:macro name="box_inertia" params="x y z m *origin">
+        <inertial>
+            <mass value="${m}"/>
+            <xacro:insert_block name="origin"/>
+            <inertia ixx="${0.0833 * m * ( (y * y) + (z * z))}" ixy="0.0" ixz="0.0"
+                iyy="${0.0833 * m * ( (x * x) + (z * z))}" iyz="0.0" izz="${0.0833 * m * ( (x * x) + (y * y) )}" />
+        </inertial>
+    </xacro:macro>
+
+</robot>
+
+<!-- https://en.wikipedia.org/wiki/List_of_moments_of_inertia -->

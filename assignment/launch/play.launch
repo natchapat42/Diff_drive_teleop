@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(find assignment)/urdf/robot.xacro"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find assignment)/rviz/config.rviz"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> 
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+
+    <!-- launch gazebo + initial position-->
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model robotx -x 2 -y -3 -z 0.5" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+        <arg name="world_name" value="$(find assignment)/World/room.world"/>
+
+    </include>
+
+    <!--for run teleop.py in same file-->
+
+    <!--node pkg="assignment" type="teleop.py" name="teleop" output="screen"/--> 
+
+    
+</launch>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<robot name="wheel" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- set color in RVIZ -->
+
+    <material name="YELLOW">
+        <color rgba="1 0.98 0.278 1"/>
+    </material>
+
+    <!-- Set parameter from properties.xacro -->
+
+    <xacro:include filename="$(find assignment)/urdf/properties.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/inertial.xacro"/>
+
+    <xacro:macro name="wheelx" params="name translation rotation parent">
+
+        <!-- wheel -->
+
+        <link name="${name}_wheel">
+            <visual>
+                <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${WHEEL_RADIUS}" length="0.04"/>
+                </geometry>
+                <material name="YELLOW"/>
+            </visual>
+            <xacro:cylinder_inertia
+                r="0.1"
+                l="0.04"
+                m="0.4">
+            <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+            </xacro:cylinder_inertia>
+            <collision>
+                <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${WHEEL_RADIUS}" length="0.04"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- Color --> 
+        
+        <gazebo reference="${name}_wheel"> 
+            <material>Gazebo/Purple</material> 
+        </gazebo> 
+
+        <!-- joint wheel-->
+
+        <joint name="${name}_wheel_joint" type="continuous">
+            <origin xyz="${translation}" rpy="${rotation}"/>
+            <parent link="${parent}"/>
+            <child link="${name}_wheel"/>
+            <axis xyz="0 1 0"/>
+        </joint>
+
+    </xacro:macro>
+
+</robot>

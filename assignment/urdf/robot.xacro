@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="robotx" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find assignment)/urdf/body.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/lidar.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/wheel.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/camera.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/inertial.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/properties.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/diff_drive.xacro"/>
+    
+    <xacro:wheelx 
+        name="left" 
+        translation="0 ${WHEEL_SEPARETION/2} 0" 
+        rotation="0 0 0" 
+        parent="base_link"/>
+
+    <xacro:wheelx 
+        name="right" 
+        translation="0 ${-WHEEL_SEPARETION/2} 0" 
+        rotation="0 0 0" 
+        parent="base_link"/> 
+        
+    <xacro:body/>
+
+     <!--lidar-->
+    
+    <xacro:lidarx/>
+    
+    <!-- camera -->
+
+    <xacro:cameraX/>
+
+    <!-- controller -->
+
+    <xacro:controller/>
+    
+</robot>

@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+
+<robot name="robot_body" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- set color in RVIZ -->
+
+    <material name="YELLOW_SUPPORT">
+        <color rgba="1 0.98 0.278 1"/>
+    </material>
+
+    <material name="PURPLE_TOP">
+        <color rgba="0.58 0.42 0.94 1"/>
+    </material>
+
+    <material name="PURPLE_BASE">
+        <color rgba="0.49 0 0.87 1"/>
+    </material>
+
+    <xacro:include filename="$(find assignment)/urdf/properties.xacro"/>
+    <xacro:include filename="$(find assignment)/urdf/inertial.xacro"/>
+
+    <xacro:macro name="body" params="">
+
+        <!-- Frame attach ground -->
+
+        <link name="base_footprint"/>
+
+        <joint name="base_footprint_to_base_link" type="fixed">
+            <parent link="base_footprint"/>
+            <child link="base_link"/>
+            <origin rpy="0 0 0" xyz ="0 0 0.1"/> 
+        </joint>
+
+        <!-- Frame attach robot -->
+
+        <link name="base_link">
+            <visual>
+                <origin rpy="0 0 0" xyz ="-0.1 0 0.05"/>
+                <geometry>
+                    <box size="0.6 ${WHEEL_SEPARETION-0.04} 0.15"/>
+                </geometry>
+                <material name="PURPLE_BASE"/>
+            </visual>
+            <xacro:box_inertia
+                x="0.6"
+                y="${WHEEL_SEPARETION-0.04}"
+                z="0.15"
+                m="0.75">
+                <origin rpy="0 0 0" xyz ="-0.1 0 0.05"/>
+            </xacro:box_inertia>
+            <collision>
+                <geometry>
+                    <box size="0.6 ${WHEEL_SEPARETION-0.04} 0.15"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <gazebo reference="base_link"> 
+            <material>Gazebo/Yellow</material> 
+        </gazebo> 
+
+
+        <!-- Frame top Body-->
+
+        <joint name="base_link_to_top_body" type="fixed">
+            <parent link="base_link"/>
+            <child link="top_body"/>
+            <origin rpy="0 0 0" xyz ="0 0 0.15"/> 
+        </joint>
+
+        <!-- mid Body-->
+
+        <link name="top_body">
+            <visual>
+                <origin rpy="0 0 0" xyz ="-0.1 0 0.05"/>
+                <geometry>
+                    <box size="0.4 0.3 0.15"/>
+                </geometry>
+                <material name="PURPLE_TOP"/>
+            </visual>
+            <xacro:box_inertia
+            x="0.4"
+            y="0.3"
+            z="0.15"
+            m="0.5">
+            <origin rpy="0 0 0" xyz ="-0.1 0 0.05"/>
+        </xacro:box_inertia>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.3 0.15"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <gazebo reference="top_body"> 
+            <material>Gazebo/Purple</material> 
+        </gazebo> 
+
+        <!-- frame support wheel-->
+
+        <joint name="base_footprint_to_support_wheel" type="fixed">
+            <parent link="base_footprint"/>
+            <child link="support_wheel"/>
+            <origin rpy="0 0 0" xyz ="-0.3 0 0.05"/> 
+        </joint>
+
+        <!-- support wheel-->
+
+        <link name="support_wheel">
+            <visual>
+                <origin rpy="0 0 0" xyz ="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.05"/>
+                </geometry>
+                <material name="YELLOW_SUPPORT"/>
+            </visual>
+            <xacro:sphere_inertia
+                r="0.05"
+                m="0.5">
+                <origin rpy="0 0 0" xyz ="0 0 0"/>
+        </xacro:sphere_inertia>
+            <collision>
+                <geometry>
+                    <sphere radius="0.05"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- Color --> 
+
+        <gazebo reference="support_wheel"> 
+            <material>Gazebo/Purple</material> 
+        </gazebo> 
+
+    </xacro:macro>
+
+</robot>
